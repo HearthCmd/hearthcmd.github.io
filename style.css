@@ -69,7 +69,7 @@ nav .brand {
 nav .brand img {
   width: 32px;
   height: 32px;
-  border-radius: 7px;
+  
 }
 
 nav .nav-links {
@@ -96,7 +96,7 @@ nav .nav-links a:hover {
 .hero-logo {
   width: 128px;
   height: 128px;
-  border-radius: 28px;
+  
   margin-bottom: 32px;
   box-shadow: 0 0 60px var(--accent-glow);
 }
