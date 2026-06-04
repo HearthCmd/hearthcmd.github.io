@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Support - Hearth Cmd</title>
-  <meta name="description" content="Troubleshooting and support for Hearth Cmd.">
+  <title>Support - Hearth</title>
+  <meta name="description" content="Troubleshooting and support for Hearth.">
   <link rel="icon" type="image/svg+xml" href="hearthcmd.svg">
   <link rel="apple-touch-icon" href="hearthcmd-180.png">
   <link rel="stylesheet" href="style.css">
@@ -21,12 +21,12 @@
   <nav>
     <div class="container">
       <a href="/" class="brand">
-        <img src="hearthcmd.svg" alt="Hearth Cmd logo">
-        Hearth Cmd
+        <img src="hearthcmd.svg" alt="Hearth logo">
+        Hearth
       </a>
       <div class="nav-links">
         <a href="/">Home</a>
-        <a href="guide.html">Setup Guide</a>
+        <a href="guide.html">Get Started</a>
       </div>
     </div>
   </nav>
@@ -35,47 +35,64 @@
     <div class="container">
       <h1>Support</h1>
 
-      <p>For installation, login, and how-to walkthroughs, see the <a href="guide.html">setup guide</a>. This page is for troubleshooting and getting in touch when something isn't working.</p>
+      <p>For setup and how-to walkthroughs, see the <a href="guide.html">getting started guide</a>. This page covers common problems and how to fix them.</p>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
 
-      <h3>Host not appearing in the app</h3>
+      <h3>My computer isn't showing up in the app</h3>
       <ul>
-        <li>Make sure the daemon is running: <code>hearth status</code>.</li>
-        <li>Confirm you're signed in to the same account on the CLI and the app &mdash; <code>hearth login</code> emails an OTP to the address you specify, and the app's email must match.</li>
-        <li>Check the <strong>About</strong> tab in the app &mdash; status should show "Connected" with a green dot.</li>
+        <li>Make sure the Hearth daemon is running on that computer: open a terminal and run <code>hearth host status</code>.</li>
+        <li>If it's not running, start it with <code>hearth host start</code>.</li>
+        <li>Confirm you signed in to the same email address on both the computer (<code>hearth login</code>) and the app.</li>
+        <li>Check your internet connection on both devices.</li>
       </ul>
 
-      <h3>Agent won't spawn from the app</h3>
+      <h3>An agent won't start</h3>
       <ul>
-        <li>Confirm <code>hearth status</code> shows the daemon as running on the target host.</li>
-        <li>Make sure the working directory exists on that host and is readable.</li>
-        <li>Make sure the agent binary you picked (e.g. <code>claude</code>) is installed and on the daemon's <code>PATH</code>.</li>
-        <li>Check the daemon log for errors. Path is shown by <code>hearth status</code>.</li>
+        <li>Confirm the daemon is running: <code>hearth host status</code>.</li>
+        <li>Make sure the AI software the agent uses (e.g. Claude) is installed on the computer and working. Try running it directly from the terminal to confirm.</li>
+        <li>Check the daemon log for error messages. The log path is shown in the output of <code>hearth host status</code>.</li>
       </ul>
 
-      <h3>Talk to Your Agent not working</h3>
+      <h3>I'm not getting push notifications</h3>
       <ul>
-        <li>Talk to Your Agent requires a Hearth Cmd Pro subscription.</li>
-        <li>The agent must have been spawned via the app (or via the daemon on this host).</li>
-        <li>Check that the Activity tab shows an input bar at the bottom when viewing the session.</li>
+        <li>Push notifications require a Hearth Pro subscription.</li>
+        <li>Go to <strong>Settings &rarr; Hearth &rarr; Notifications</strong> and confirm notifications are enabled.</li>
+        <li>If you use Focus modes, add Hearth to the allowed apps list, or enable Time Sensitive notifications for Hearth so critical alerts get through.</li>
+        <li>If the Hearth app is open on your screen, requests arrive silently via the app connection &mdash; push notifications are only sent when the app is in the background.</li>
       </ul>
 
-      <h3>Not receiving push notifications</h3>
+      <h3>The agent keeps asking for the same permissions</h3>
       <ul>
-        <li>Check that notifications are enabled: <strong>Settings &rarr; Hearth Cmd &rarr; Notifications</strong>.</li>
-        <li>If using a Focus mode, make sure Hearth Cmd is in the allowed apps list or Time Sensitive notifications are enabled.</li>
-        <li>Push notifications are sent when the app is backgrounded. If the app is in the foreground, requests arrive directly via WebSocket.</li>
+        <li>Tap <strong>Always Allow</strong> instead of just Allow. This creates a rule so that type of action is approved automatically in the future.</li>
+        <li>Check the <strong>Grants</strong> tab for that agent to see existing rules and confirm they're set up correctly.</li>
       </ul>
 
-      <h3>Requests timing out</h3>
+      <h3>A request timed out</h3>
       <ul>
-        <li>The default timeout is 590 seconds.</li>
-        <li>If the app is not connected and push notifications fail, the request will time out and be denied.</li>
+        <li>Requests time out after about 10 minutes if no response is received. The agent will not proceed &mdash; the action is denied by default on timeout.</li>
+        <li>If you're missing requests, make sure push notifications are enabled (Pro), or keep the app open in the foreground while agents are running.</li>
+      </ul>
+
+      <h3>The daemon stops when I restart my computer</h3>
+      <ul>
+        <li>The Hearth daemon does not start automatically on reboot. Run <code>hearth host start</code> after restarting.</li>
+        <li>To have it start automatically, add <code>hearth host start</code> to your shell profile, or set up a launchd (Mac) or systemd (Linux) user service.</li>
+      </ul>
+
+      <h3>Talk to Agent or Pull the Plug aren't available</h3>
+      <ul>
+        <li>Both features require a Hearth Pro subscription.</li>
+      </ul>
+
+      <h3>Voice input isn't showing up</h3>
+      <ul>
+        <li>Voice input requires Hearth Pro, iPhone 12 or later, and English as your device language.</li>
+        <li>If you just subscribed, force-quit and relaunch the app.</li>
       </ul>
 
       <h2>Contact</h2>
-      <p>For bug reports, feature requests, or any questions, email <a href="mailto:support@hearthcmd.com">support@hearthcmd.com</a>.</p>
+      <p>Can't find your answer here? Email <a href="mailto:support@hearthcmd.com">support@hearthcmd.com</a> and we'll get back to you.</p>
     </div>
   </div>
 
@@ -87,7 +104,7 @@
         <a href="support.html">Support</a>
         <a href="mailto:support@hearthcmd.com">Contact</a>
       </div>
-      <p class="copyright">&copy; 2025-2026 David Farrell. All rights reserved.</p>
+      <p class="copyright">&copy; 2025&ndash;2026 Verge Labs. All rights reserved.</p>
     </div>
   </footer>
 </body>

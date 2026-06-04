@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Setup Guide - Hearth Cmd</title>
-  <meta name="description" content="Set up Hearth Cmd with your AI coding agent. Approve permission requests from your iPhone with push notifications, smart rules, and risk-annotated commands. Works with Claude Code, Copilot CLI, Cursor CLI, Codex CLI, and Pi.">
-  <meta name="keywords" content="Claude Code, Copilot CLI, Cursor CLI, Codex CLI, Pi, AI agent approval, AI agent permissions, remote approval, Hearth Cmd">
+  <title>Get Started - Hearth</title>
+  <meta name="description" content="Set up Hearth and start putting AI agents to work at home. Step-by-step guide to installing the CLI, logging in, and starting your first agent.">
   <link rel="icon" type="image/svg+xml" href="hearthcmd.svg">
   <link rel="apple-touch-icon" href="hearthcmd-180.png">
   <link rel="stylesheet" href="style.css">
@@ -14,8 +13,8 @@
   <nav>
     <div class="container">
       <a href="/" class="brand">
-        <img src="hearthcmd.svg" alt="Hearth Cmd logo">
-        Hearth Cmd
+        <img src="hearthcmd.svg" alt="Hearth logo">
+        Hearth
       </a>
       <div class="nav-links">
         <a href="/">Home</a>
@@ -26,160 +25,84 @@
 
   <div class="docs">
     <div class="container">
-      <h1>Hearth Cmd Setup Guide</h1>
+      <h1>Getting Started with Hearth</h1>
 
-      <p>Hearth Cmd is mission control for your AI coding agents. You install a small CLI on each machine where you want agents to run, log in once with your email, and start the daemon. From then on, you spawn and manage agents from your phone. The CLI's permission engine intercepts every read, write, network call, and shell command and routes them to the app for approval. Smart rules auto-approve trusted actions so your agents keep working.</p>
-
-      <h2>Supported Agents</h2>
-      <ul>
-        <li><a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a></li>
-        <li><a href="https://docs.github.com/en/copilot">GitHub Copilot CLI</a></li>
-        <li><a href="https://www.cursor.com">Cursor CLI</a></li>
-        <li><a href="https://openai.com/index/introducing-codex/">Codex CLI</a></li>
-        <li><a href="https://www.npmjs.com/package/@mariozechner/pi-coding-agent">Pi</a></li>
-      </ul>
+      <p>Hearth lets you run AI agents on your home computer and manage them from your iPhone. The agents do the work; you stay in control of what they're allowed to do. This guide walks you through setup from scratch.</p>
 
       <h2>What You'll Need</h2>
       <ul>
-        <li>One of the supported agents installed and working</li>
-        <li>An iPhone with the Hearth Cmd app installed (iOS App Store listing coming soon)</li>
-        <li>macOS, Linux, or WSL2</li>
+        <li>A Mac or Linux computer (or Windows with WSL2) where agents will run &mdash; this can be a machine that stays on at home</li>
+        <li>An iPhone with the Hearth app installed (coming soon to the App Store)</li>
+        <li>Basic comfort with a terminal application</li>
       </ul>
 
-      <h2>Step 1: Install the CLI</h2>
+      <h2>Step 1: Install Hearth on Your Computer</h2>
+      <p>Open a terminal and run:</p>
       <pre><code>curl -sSL https://hearthcmd.com/install.sh | bash</code></pre>
-      <p>Downloads the latest binary for your system and installs it to <code>/usr/local/bin/hearth</code>.</p>
+      <p>This downloads and installs the <code>hearth</code> command to <code>/usr/local/bin/hearth</code>.</p>
 
       <h2>Step 2: Log In</h2>
-      <p>Run <code>hearth login</code> with your email:</p>
       <pre><code>hearth login you@example.com</code></pre>
-      <p>Hearth Cmd emails you a 6-digit code. Check your inbox, copy the code, and paste it at the prompt:</p>
+      <p>Hearth sends a 6-digit code to your email. Paste it at the prompt:</p>
       <pre><code>A 6-digit code has been sent to you@example.com.
 Enter the code: 123456</code></pre>
-      <p>If this is your first time logging in, you'll also be asked for a display name and an organization name (press Enter to accept the suggested defaults). Once verified, this machine is enrolled as a host under your account &mdash; you don't need to log in again on this machine unless you sign out.</p>
+      <p>On first login you'll be asked for your name and a name for your household (your "organization" in Hearth). Defaults are fine &mdash; just press Enter. Once verified, this computer is enrolled and ready.</p>
 
-      <h2>Step 3: Start the Daemon</h2>
-      <pre><code>hearth start</code></pre>
-      <p>The daemon runs in the background and listens for spawn requests from the app. You can check on it any time with:</p>
-      <pre><code>hearth status</code></pre>
-      <p>Stop it with <code>hearth stop</code>. It does not auto-start on boot &mdash; run <code>hearth start</code> after a reboot if you want the host available to your phone.</p>
+      <h2>Step 3: Start the Hearth Daemon</h2>
+      <p>The daemon is a small background process that keeps your computer connected and manages your agents:</p>
+      <pre><code>hearth host start</code></pre>
+      <p>Check that it's running:</p>
+      <pre><code>hearth host status</code></pre>
+      <p>To stop it: <code>hearth host stop</code>. Note that it does not restart automatically after a reboot &mdash; you'll need to run <code>hearth host start</code> again, or set it up as a startup item.</p>
 
-      <h2>Step 4: Sign In on Your Phone</h2>
-      <p>Open Hearth Cmd on your iPhone, enter the same email address, and enter the 6-digit code that arrives in your inbox. The app picks up the host you just enrolled and shows it in the host list.</p>
+      <h2>Step 4: Sign In on Your iPhone</h2>
+      <p>Open the Hearth app, enter the same email address, and verify with the code that arrives. The app will find the computer you just enrolled and show it connected.</p>
 
-      <h2>Step 5: Spawn an Agent from the App</h2>
-      <p>Everything from here happens on your phone. To start a new agent session:</p>
+      <h2>Step 5: Start Your First Agent</h2>
+      <p>Agents are the AI assistants that do the actual work. You can start one from the app or from your terminal.</p>
+
+      <h3>From your phone</h3>
       <ol>
-        <li>Tap <strong>+ New Agent</strong> on the home screen.</li>
-        <li>Pick the host you want the agent to run on.</li>
-        <li>Pick a working directory (or add a new one and point it at any folder on that host).</li>
-        <li>Pick the agent &mdash; Claude Code, Copilot CLI, Cursor CLI, Codex CLI, or Pi.</li>
-        <li>Tap <strong>Start</strong>.</li>
+        <li>Tap the <strong>+</strong> button on the home screen.</li>
+        <li>Choose <strong>Temp Agent</strong> for a one-off task, or <strong>Full-time Agent</strong> for something you want to run regularly.</li>
+        <li>Select the computer you want the agent to run on.</li>
+        <li>Choose the AI (Claude, Gemini, and others are supported).</li>
+        <li>Tap <strong>Start</strong> and give the agent its first instruction.</li>
       </ol>
-      <p>The agent launches on your laptop in yolo mode &mdash; it never blocks on a terminal prompt. The app shows the live activity stream as the agent works. The first time the agent does anything that needs permission (writing a file, running a command, hitting the network), you'll get a prompt on your phone.</p>
 
-      <h2>Day-to-Day from the App</h2>
+      <h3>From the terminal (quick start)</h3>
+      <p>Navigate to the folder you want the agent to work in, then:</p>
+      <pre><code>hearth hh agent create --temp</code></pre>
+      <p>This spins up a scratch agent in the current directory and opens a live view of what it's doing.</p>
+
+      <h2>Approving Requests</h2>
+      <p>When an agent wants to do something that needs your sign-off &mdash; read a file outside its working folder, access the web, run a system command &mdash; you'll get a notification. Open it to see exactly what the agent is asking to do, then tap:</p>
       <ul>
-        <li><strong>Approve or deny requests.</strong> Each request shows the tool, the input, and the risk level. Tap <strong>Allow</strong>, <strong>Always Allow</strong>, <strong>Deny</strong>, or <strong>Deny &amp; Stop</strong>.</li>
-        <li><strong>Watch the activity stream.</strong> Every tool call, file edit, and response streams in real time. Scrub back through anything the agent has done in the session.</li>
-        <li><strong>Talk to your agent.</strong> The Activity tab has an input bar. Anything you type is sent to the agent as if you typed it at the terminal.</li>
-        <li><strong>Run multiple agents at once.</strong> Spawn agents on different working directories, or different hosts, and switch between them in the home screen.</li>
-        <li><strong>Pull the plug.</strong> Tap the stop button on any session to terminate the agent immediately.</li>
+        <li><strong>Allow</strong> &mdash; let it proceed this one time</li>
+        <li><strong>Always Allow</strong> &mdash; approve this type of action automatically from now on</li>
+        <li><strong>Deny</strong> &mdash; block this action; the agent will move on</li>
+        <li><strong>Deny &amp; Stop</strong> &mdash; block the action and halt the agent immediately</li>
       </ul>
+      <p>The first few sessions will have more requests as the system learns your preferences. After you've tapped "Always Allow" a few times on the things you trust, most actions will happen automatically.</p>
 
-      <h2>CLI Reference</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Command</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>hearth login &lt;email&gt;</code></td>
-            <td>Log in via email OTP and enroll this host. <code>--invite &lt;token&gt;</code> joins an existing org.</td>
-          </tr>
-          <tr>
-            <td><code>hearth start</code></td>
-            <td>Start the daemon on this host.</td>
-          </tr>
-          <tr>
-            <td><code>hearth stop</code></td>
-            <td>Stop the daemon.</td>
-          </tr>
-          <tr>
-            <td><code>hearth status</code></td>
-            <td>Show daemon status.</td>
-          </tr>
-          <tr>
-            <td><code>hearth talk</code></td>
-            <td>Open a TUI to talk to active agent instances from this terminal.</td>
-          </tr>
-          <tr>
-            <td><code>hearth hh</code></td>
-            <td>Manage household, users, hosts, devices, agents, and invites.</td>
-          </tr>
-          <tr>
-            <td><code>hearth wd</code></td>
-            <td>Manage working directories (list, create, update, abandon, delete).</td>
-          </tr>
-          <tr>
-            <td><code>hearth update</code></td>
-            <td>Update <code>hearth</code> to the latest version.</td>
-          </tr>
-          <tr>
-            <td><code>hearth logout</code></td>
-            <td>Sign out on this machine: stops the daemon, revokes credentials, clears config.</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>Run <code>hearth &lt;command&gt; --help</code> for details. Config lives in <code>~/.hearth/config</code>.</p>
+      <h2>Smart Rules</h2>
+      <p>Every "Always Allow" creates a rule. Hearth's rules are specific: approving one web request doesn't open the floodgates to all web requests. Rules are scoped by action type, and for sensitive operations like deleting files, each exact command gets its own rule.</p>
+      <p>You can review, edit, and delete your rules any time in the <strong>Grants</strong> tab for any agent.</p>
 
-      <h2>How the Rules Work</h2>
-      <p>Rules are the core of the system. Tapping "Always Allow" doesn't just approve the request &mdash; it generates a pattern that auto-approves future matching commands without interrupting you.</p>
-
-      <h3>Pattern generation</h3>
-      <p>Patterns are <strong>subcommand-aware</strong>. The system knows that <code>git push</code> and <code>git status</code> are different operations:</p>
+      <h2>Tips for Getting the Most Out of Hearth</h2>
       <ul>
-        <li><code>go build ./cmd/foo</code> &rarr; pattern <code>Bash(go build **)</code> &mdash; matches any <code>go build</code></li>
-        <li><code>git push origin main</code> &rarr; pattern <code>Bash(git push **)</code> &mdash; matches any <code>git push</code>, but not <code>git reset</code></li>
-        <li><code>aws s3 cp file.txt s3://bucket/</code> &rarr; pattern <code>Bash(aws s3 cp **)</code> &mdash; three-word prefix for AWS/GCloud</li>
-      </ul>
-
-      <h3>Destructive command safety</h3>
-      <p>Commands like <code>rm</code>, <code>sudo</code>, <code>kill</code>, and <code>chmod</code> use <strong>exact matching</strong>. Granting <code>rm -rf /tmp/coverage</code> creates a rule that matches only that exact string &mdash; not <code>rm -rf /home</code>, not <code>rm -rf /tmp/coverage /etc</code>.</p>
-
-      <h3>Compound commands</h3>
-      <p>When the agent runs <code>git add . && git commit -m "msg" && git push</code>, the system splits it into three segments and generates a separate pattern for each. All segments must have matching rules for the compound command to auto-approve. If you've granted <code>git add</code> and <code>git commit</code> but not <code>git push</code>, the compound command still comes to your phone.</p>
-      <p>In the app, each segment is color-coded by risk (green/orange/red) and segments already covered by rules show a checkmark overlay &mdash; so you can see at a glance which part of the command is the one that needs your attention.</p>
-
-      <h3>File operations</h3>
-      <p>For <code>Read</code>, <code>Write</code>, and <code>Edit</code> tools, patterns match on the directory. Granting an edit to <code>/home/user/project/src/main.go</code> creates the pattern <code>Edit(/home/user/project/src/**)</code>, which covers future edits in that directory.</p>
-
-      <h2>Talk to Your Agent from Your Phone</h2>
-      <p>The Activity tab in the app shows an input bar at the bottom. Anything you type is sent directly to your agent session as if you typed it at the terminal.</p>
-      <p>Use this to:</p>
-      <ul>
-        <li>Answer prompts when your agent asks a question</li>
-        <li>Provide additional context or instructions mid-session</li>
-        <li>Nudge the agent in a different direction</li>
-        <li>Respond to interactive dialogs</li>
-      </ul>
-      <p>Talk to Your Agent requires Hearth Cmd Pro. Pro also includes push notifications so you never miss a request.</p>
-
-      <h2>Tips</h2>
-      <ul>
-        <li>The first few sessions generate the most requests. Once you've built up rules for your common patterns, interruptions drop off quickly.</li>
-        <li>Check the <strong>Grants</strong> tab to see your rules grouped by project. Swipe left to delete any rule.</li>
-        <li>If you're in a Focus mode on iOS, make sure Time Sensitive notifications are allowed for Hearth Cmd &mdash; permission requests use this priority.</li>
+        <li><strong>Start with a specific task.</strong> "Research the best air purifier under $200 and write up a comparison" works better than "help around the house."</li>
+        <li><strong>Use temp agents for one-off jobs.</strong> They're quick to spin up and clean up after themselves.</li>
+        <li><strong>Set up full-time agents for recurring work.</strong> A full-time agent remembers context across sessions and builds up a useful set of permissions over time.</li>
+        <li><strong>Enable push notifications.</strong> Agents can get stuck waiting for you. With Pro, you'll get notified on your phone the moment one needs a decision.</li>
+        <li><strong>Check the activity stream.</strong> It's the best way to understand what your agents are actually doing and catch anything unexpected.</li>
       </ul>
 
       <h2>Troubleshooting</h2>
-      <p>See the <a href="support.html#troubleshooting">troubleshooting section</a> of the support page for common issues.</p>
+      <p>See the <a href="support.html#troubleshooting">support page</a> if something isn't working.</p>
 
       <h2>Questions?</h2>
-      <p>Email <a href="mailto:support@hearthcmd.com">support@hearthcmd.com</a>.</p>
+      <p>Email <a href="mailto:support@hearthcmd.com">support@hearthcmd.com</a> &mdash; we're happy to help.</p>
     </div>
   </div>
 
@@ -211,7 +134,7 @@ Enter the code: 123456</code></pre>
         <a href="support.html">Support</a>
         <a href="mailto:support@hearthcmd.com">Contact</a>
       </div>
-      <p class="copyright">&copy; 2025-2026 David Farrell. All rights reserved.</p>
+      <p class="copyright">&copy; 2025&ndash;2026 Verge Labs. All rights reserved.</p>
     </div>
   </footer>
 </body>
