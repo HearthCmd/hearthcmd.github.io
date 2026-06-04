@@ -254,6 +254,21 @@ section h2 {
   line-height: 1.5;
 }
 
+.pro-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--dark);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 2px;
+  line-height: 1.4;
+}
+
 /* Footer */
 footer {
   border-top: 1px solid var(--dark-border);
