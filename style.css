@@ -98,7 +98,6 @@ nav .nav-links a:hover {
   height: 128px;
   border-radius: 28px;
   overflow: hidden;
-  box-shadow: 0 0 60px var(--accent-glow);
   margin-bottom: 32px;
   display: inline-block;
 }
