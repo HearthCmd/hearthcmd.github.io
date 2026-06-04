@@ -41,17 +41,26 @@
 
       <h3>My computer isn't showing up in the app</h3>
       <ul>
-        <li>Make sure the Hearth daemon is running on that computer: open a terminal and run <code>hearth host status</code>.</li>
-        <li>If it's not running, start it with <code>hearth host start</code>.</li>
+        <li>Make sure the Hearth daemon is running on that computer:</li>
+      </ul>
+      <pre><code>hearth host status</code></pre>
+      <ul>
+        <li>If it's not running, start it:</li>
+      </ul>
+      <pre><code>hearth host start</code></pre>
+      <ul>
         <li>Confirm you signed in to the same email address on both the computer (<code>hearth login</code>) and the app.</li>
         <li>Check your internet connection on both devices.</li>
       </ul>
 
       <h3>An agent won't start</h3>
       <ul>
-        <li>Confirm the daemon is running: <code>hearth host status</code>.</li>
+        <li>Confirm the daemon is running:</li>
+      </ul>
+      <pre><code>hearth host status</code></pre>
+      <ul>
         <li>Make sure the AI software the agent uses (e.g. Claude) is installed on the computer and working. Try running it directly from the terminal to confirm.</li>
-        <li>Check the daemon log for error messages. The log path is shown in the output of <code>hearth host status</code>.</li>
+        <li>The daemon log path is shown in the output of <code>hearth host status</code> &mdash; check it for error messages.</li>
       </ul>
 
       <h3>I'm not getting push notifications</h3>
@@ -76,7 +85,10 @@
 
       <h3>The daemon stops when I restart my computer</h3>
       <ul>
-        <li>The Hearth daemon does not start automatically on reboot. Run <code>hearth host start</code> after restarting.</li>
+        <li>The Hearth daemon does not start automatically on reboot. Run this after restarting:</li>
+      </ul>
+      <pre><code>hearth host start</code></pre>
+      <ul>
         <li>To have it start automatically, add <code>hearth host start</code> to your shell profile, or set up a launchd (Mac) or systemd (Linux) user service.</li>
       </ul>
 
@@ -95,6 +107,26 @@
       <p>Can't find your answer here? Email <a href="mailto:support@hearthcmd.com">support@hearthcmd.com</a> and we'll get back to you.</p>
     </div>
   </div>
+
+  <script>
+    document.querySelectorAll('.docs pre').forEach(function(pre) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', function() {
+        var code = pre.querySelector('code');
+        navigator.clipboard.writeText(code ? code.innerText : pre.innerText).then(function() {
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      });
+      pre.appendChild(btn);
+    });
+  </script>
 
   <footer>
     <div class="container">

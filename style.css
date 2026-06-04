@@ -96,9 +96,8 @@ nav .nav-links a:hover {
 .hero-logo {
   width: 128px;
   height: 128px;
-  
   margin-bottom: 32px;
-  box-shadow: 0 0 60px var(--accent-glow);
+  filter: drop-shadow(0 0 40px var(--accent-glow));
 }
 
 .hero h1 {

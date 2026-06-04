@@ -46,10 +46,12 @@
         <li><strong>Push notification token.</strong> A token from Apple (APNs) or Google (FCM) used solely to deliver notifications to your device. It doesn't identify you personally.</li>
         <li><strong>Household and agent configuration.</strong> Names and settings you create for your household, enrolled computers, agent configurations, and working directories are stored on the server. This includes folder paths you designate for agents to work in.</li>
         <li><strong>Permission request data.</strong> When an agent asks to take an action, the details of that request (what tool, what input) are relayed through our server to your device. Your response (Allow / Deny / Always Allow) and the timestamp are logged for operational and audit purposes.</li>
-        <li><strong>Always-allow rules.</strong> Rules you create by tapping "Always Allow" are stored on the server and scoped to the specific agent that created them. You can view and delete them at any time.</li>
+        <li><strong>Auto-approve rules.</strong> Rules that allow certain actions to proceed automatically — created by tapping "Always Allow," through direct rule management, or via plugin installation — are stored on the server and scoped to the specific agent they apply to. You can view and delete them at any time.</li>
         <li><strong>Subscription data.</strong> If you subscribe to Hearth Pro, the transaction ID, product ID, and status from Apple or Google are stored to verify your entitlement. We never receive your payment details.</li>
-        <li><strong>Activity stream data.</strong> Your agents' live transcripts (what they're doing step by step) pass through our server in real time to your device. This data is only held in memory during transit &mdash; it is never written to disk or stored on our servers.</li>
+        <li><strong>Agent activity data.</strong> While an agent is running, its step-by-step activity (tool calls, file edits, command output) streams through our server in real time to your device. This data is only held in memory during transit &mdash; it is never written to disk or stored on our servers.</li>
+        <li><strong>Chat messages.</strong> Hearth includes chat rooms where household members (and agents) can exchange messages. The content of those messages, along with the sender name, room, and timestamp, is stored on our servers for as long as your account is active. Messages you delete are soft-deleted (marked as removed) and are purged from active views, but may remain in the database for a short period before permanent removal. Agent-to-chat messages (where an agent posts into a chat room) are stored the same way as human messages.</li>
         <li><strong>OTP request IP address.</strong> Logged briefly for rate-limiting abuse on the login endpoint. Not used for tracking or analytics.</li>
+        <li><strong>Hearth CLI.</strong> The CLI runs entirely on your computer. It stores credentials locally in <code>~/.hearth/credentials</code> and communicates with the relay server on your behalf. It does not send any additional data to our servers beyond what the app does.</li>
         <li><strong>Google OAuth credentials (optional).</strong> If you connect a Google account to use Google Calendar, Drive, or Contacts integrations, we store an OAuth refresh token on the server. It's encrypted to your specific computer's public key (X25519 + ChaCha20-Poly1305), so only the Hearth daemon on that computer can decrypt it. Short-lived access tokens are derived on demand and used only for the specific API call in progress. We also store your Google account email as a label so you know which account is connected.</li>
       </ul>
 
@@ -59,7 +61,7 @@
         <li>We don't collect usage analytics, telemetry, or behavioral tracking beyond what's described above.</li>
         <li>We don't use cookies or tracking scripts in the app. The website uses Google Analytics for aggregate traffic statistics; the app does not.</li>
         <li>We don't access files, source code, or any other data on your computer beyond what appears in the permission requests your agents generate.</li>
-        <li>Agent chat history is not stored on our servers.</li>
+        <li>Agent activity stream data (tool calls, command output, file edits) is not stored on our servers — only chat room messages are persisted.</li>
         <li>Google user data (calendar events, Drive files, contacts) is passed directly to the agent on your computer. It is not stored on our servers after the API call completes.</li>
         <li>We never use Google user data to train models, serve ads, or for any purpose beyond completing the specific action the agent requested.</li>
       </ul>
