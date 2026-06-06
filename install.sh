@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO="GetGreenlight/hearth-cmd-cli"
+REPO="HearthCmd/hearth-cmd-cli"
 INSTALL_DIR="/usr/local/bin"
 BINARY_NAME="hearth"
 
