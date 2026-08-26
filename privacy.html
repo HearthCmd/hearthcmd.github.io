@@ -32,7 +32,7 @@
   <div class="legal">
     <div class="container">
       <h1>Privacy Policy</h1>
-      <p class="last-updated">Last updated: June 22, 2026</p>
+      <p class="last-updated">Last updated: August 25, 2026</p>
 
       <p>Hearth is operated by Verge Labs. This policy explains what data we collect, why we collect it, and your rights over it.</p>
 
@@ -53,6 +53,7 @@
         <li><strong>OTP request IP address.</strong> Logged briefly for rate-limiting abuse on the login endpoint. Not used for tracking or analytics.</li>
         <li><strong>Hearth CLI.</strong> The CLI runs entirely on your computer. It stores credentials locally in <code>~/.hearth/credentials</code> and communicates with the relay server on your behalf. It does not send any additional data to our servers beyond what the app does.</li>
         <li><strong>Google OAuth credentials (optional).</strong> If you connect a Google account to use Google Calendar, Drive, or Contacts integrations, we store an OAuth refresh token on the server. It's encrypted to your specific computer's public key (X25519 + ChaCha20-Poly1305), so only the Hearth daemon on that computer can decrypt it. Short-lived access tokens are derived on demand and used only for the specific API call in progress. We also store your Google account email as a label so you know which account is connected.</li>
+        <li><strong>Voice input (optional).</strong> If you connect a voice assistant (such as a Home Assistant voice satellite) to Hearth, the <em>text transcript</em> of what you say is routed to the agent you designate. The wake word and speech-to-text run <strong>on your own hardware in your home</strong> &mdash; we never receive audio recordings. What reaches our servers is text, handled the same way as an agent's live activity stream: relayed in memory to the designated agent and never written to our database as a stored message. See <a href="#voice">Voice and Home Assistant</a> below.</li>
       </ul>
 
       <h2>2. What We Don't Collect</h2>
@@ -64,6 +65,8 @@
         <li>Agent activity stream data (tool calls, command output, file edits) is not stored on our servers — only chat room messages are persisted.</li>
         <li>Google user data (calendar events, Drive files, contacts) is passed directly to the agent on your computer. It is not stored on our servers after the API call completes.</li>
         <li>We never use Google user data to train models, serve ads, or for any purpose beyond completing the specific action the agent requested.</li>
+        <li>We never receive or store audio recordings from voice input. Wake-word detection and speech-to-text happen locally, on hardware in your home; only text reaches us.</li>
+        <li>We have no human-review pipeline for voice or agent data, and Hearth does not use your voice text, chat messages, or agent activity to train machine-learning models.</li>
       </ul>
 
       <h2>3. How We Use Your Data</h2>
@@ -76,6 +79,7 @@
         <li>Sending and tracking household invitations.</li>
         <li>Verifying your Pro subscription status.</li>
         <li>Making Google API calls on behalf of your agents when you've connected a Google account.</li>
+        <li>Routing voice utterances from a connected voice assistant to the agent you've designated, and relaying the agent's spoken responses back through the Hearth software on your computer.</li>
       </ul>
       <p>We do not sell your data. We share it only with: (a) Apple APNs and Google FCM for push notification delivery; (b) Apple and Google for subscription verification; (c) our email provider for OTP and invitation delivery; and (d) Google APIs when completing agent actions you've authorized.</p>
       <p>Our use of Google API Services adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
@@ -95,6 +99,7 @@
 
       <h2>6. Children's Privacy</h2>
       <p>Hearth is not intended for children under 13. We do not knowingly collect data from children under 13. If you believe we have, please contact us and we will delete it promptly.</p>
+      <p>If you connect a voice assistant to Hearth, be aware that anyone who speaks to it &mdash; including children &mdash; will have the text of their speech routed to an agent. Because voice input is not tied to an individual account, we cannot distinguish a child's speech from an adult's. A household that places a shared voice device in a common area is responsible for who has access to it. As with all voice input, we store no audio and no server-side transcript.</p>
 
       <h2>7. Your Rights</h2>
       <p>Depending on where you live, you may have the right to access, correct, or delete your personal data, or to object to how we process it. To exercise any of these rights, email <a href="mailto:support@vergelabs.org">support@vergelabs.org</a>. We'll respond in accordance with applicable law.</p>
@@ -132,7 +137,25 @@
 
       <p>Our practices comply with the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
 
-      <h2 id="delete-account">11. Account Deletion</h2>
+      <h2 id="voice">11. Voice and Home Assistant</h2>
+      <p>Hearth can connect to a voice assistant &mdash; typically a <a href="https://www.home-assistant.io/" target="_blank" rel="noopener">Home Assistant</a> voice satellite (a "puck" or smart speaker) in your home &mdash; so you can speak to your agents and hear them respond. This section explains how that works and what it means for your privacy.</p>
+
+      <h3>What is captured, and where</h3>
+      <p>Capture is triggered by a wake word running on the voice hardware in your home, not by us. Both the wake word and the conversion of speech to text happen <strong>locally, on that hardware</strong>. We never receive an audio recording. What leaves your home is the <em>text</em> of what was said, which is routed to the agent you've designated.</p>
+
+      <h3>What we retain</h3>
+      <p>Voice text is routed to an agent rather than posted into a chat room, so &mdash; unlike chat messages &mdash; it is not written to our database as a stored message. It streams through our relay in memory the same way an agent's live activity does. The durable record of the conversation is the agent transcript on your own computer. Voice-activity timestamps can indicate when people are home or awake; we treat this the same as other agent activity and do not use it for profiling.</p>
+
+      <h3>Your Home Assistant credential stays on your computer</h3>
+      <p>When an agent speaks a response, that response is delivered to your Home Assistant by the Hearth software running on your own computer, over your local network &mdash; <strong>not</strong> by our servers. The credential that authorizes it is encrypted to your computer's public key (X25519 + ChaCha20-Poly1305) and can only be decrypted there. Our relay never holds your Home Assistant credential and never contacts your Home Assistant. The list of which rooms have voice devices is configuration you create; treat it as you would a sketch of your home's layout.</p>
+
+      <h3>People who aren't account holders</h3>
+      <p>A shared voice device can be spoken to by anyone in the room &mdash; a guest, a visitor, a household member without a Hearth account. When that happens, the text of what they say is routed to an agent, the same as any other utterance. Because it isn't tied to an individual account, this text is not attributed to a person and cannot be looked up or deleted on a per-person basis; as with all voice input, we store no audio and no server-side transcript of it. A household that installs a listening device in a shared space is making that choice on behalf of everyone who enters. If this matters for your household, don't connect a shared voice device, or place it where only intended users can reach it.</p>
+
+      <h3>Training and third parties</h3>
+      <p>Hearth does not use your voice text to train machine-learning models and has no human-review pipeline for it. Your voice text does become part of your agent's conversation with whatever model provider that agent uses (for example, Anthropic or OpenAI), under the account and terms <em>you</em> configured with that provider &mdash; so whether that provider retains or trains on it is governed by your own arrangement with them, not by Hearth.</p>
+
+      <h2 id="delete-account">12. Account Deletion</h2>
       <p>You can request deletion of your Hearth account and all associated personal data at any time.</p>
 
       <h3>How to delete your account</h3>
