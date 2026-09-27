@@ -16,6 +16,10 @@
 set -euo pipefail
 
 REPO="HearthCmd/hearth-cmd-cli"
+# The downloaded installer. Script-level, not local to main(): the EXIT trap that
+# removes it runs after main() has returned.
+tmp=""
+trap 'rm -f "${tmp:-}"' EXIT
 
 main() {
   command -v curl >/dev/null 2>&1 || { echo "error: curl is needed" >&2; exit 1; }
@@ -26,9 +30,7 @@ main() {
   # The tag goes into a URL: accept only a release-shaped one.
   [[ "$tag" =~ ^v[0-9]+(\.[0-9]+)*$ ]] || { echo "error: couldn't find the latest Hearth release on GitHub" >&2; exit 1; }
 
-  local tmp
   tmp="$(mktemp)"
-  trap 'rm -f "$tmp"' EXIT
   curl -fsSL "https://raw.githubusercontent.com/${REPO}/${tag}/scripts/kiosk-install.sh" -o "$tmp" ||
     { echo "error: Hearth ${tag} doesn't include the kiosk installer" >&2; exit 1; }
 
